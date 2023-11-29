@@ -1,0 +1,14 @@
+.info--items {
+  margin: auto;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+}
+
+.info--item {
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
