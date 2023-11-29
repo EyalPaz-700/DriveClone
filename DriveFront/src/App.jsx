@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
+import {
+  BrowserRouter as Router,
+  NavLink,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import { Login } from "./components/Login";
+import MyDrive from "./components/MyDrive";
+import Info from "./components/Info";
+import RenameFile from "./components/RenameFile";
+import Showfile from "./components/Showfile";
+import AddFile from "./components/AddFile";
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [info, setinfo] = useState();
+  const [changename, setChangename] = useState();
+  const [showfile, setshowfile] = useState();
+  const [files, setFiles] = useState([
+    {
+      path: "../../public/user1/two.txt",
+      name: "1",
+      id: 1,
+      size: 100,
+      lastmodified: "2015-07-07T15:00:00Z",
+    },
+    {
+      path: "../../public/user1/one.txt",
+      name: "2",
+      id: 2,
+      size: 100,
+      lastmodified: "2015-07-07T15:00:00Z",
+    },
+    {
+      path: "../../public/user1/two.txt",
+      name: "3",
+      id: 3,
+      size: 100,
+      lastmodified: "2015-07-07T15:00:00Z",
+    },
+    {
+      path: "../../public/user1/two.txt",
+      name: "4",
+      id: 4,
+      size: 100,
+      lastmodified: "2015-07-07T15:00:00Z",
+    },
+  ]);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <MyDrive
+              setinfo={setinfo}
+              setshowfile={setshowfile}
+              setChangename={setChangename}
+              setFiles={setFiles}
+              files={files}
+            />
+          }
+        ></Route>
+        <Route
+          path="/info"
+          element={<Info info={info} files={files} />}
+        ></Route>
+        <Route
+          path="/renamefile"
+          element={<RenameFile changename={changename} />}
+        ></Route>
+        <Route
+          path="/showfile"
+          element={<Showfile showfile={showfile} />}
+        ></Route>
+        <Route path="/addnewfile" element={<AddFile />}></Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -1,0 +1,45 @@
+.containar--main {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Add this line to center vertically */
+  flex-direction: column;
+  width: 95vw;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.myfiles--text {
+  text-align: center;
+}
+.text-con {
+  display: flex;
+}
+
+.user--files {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.file {
+  background-color: rgb(250, 252, 252);
+  cursor: pointer;
+  margin: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+}
+.buttons--options {
+  display: flex;
+  flex-wrap: wrap;
+}
+.buttons--options--items {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px;
+}
