@@ -1,11 +1,31 @@
 import React, { useState } from "react";
 import "../renamefile.css";
 const RenameFile = ({ changename }) => {
-  const [newname, setnewname] = useState({});
-  console.log(newname);
+  const [newname, setnewname] = useState();
+
   const submit = (e) => {
     e.preventDefault();
     console.log(changename.path);
+
+    fetch("http://localhost:3000/files/eyal")
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .then((data) => {
+        const path = data[0].path;
+        const filename = path.split("/")[3];
+        fetch(`http://localhost:3000/files/eyal/${filename}`, {
+          method: "PUT",
+          body: JSON.stringify({ name: newname }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      });
+
     //server req with newname
   };
   return (
@@ -13,13 +33,11 @@ const RenameFile = ({ changename }) => {
       <h2>Change Name For: {changename.id}</h2>
       <div className="form--container">
         <form onSubmit={submit} className="form--rename" action="">
-          <label htmlFor="newname">New Name</label>
+          <label htmlFor="name">New Name</label>
           <input
-            value={newname.name}
-            onChange={(e) =>
-              setnewname((prev) => ({ ...prev, newname: e.target.value }))
-            }
-            name="newname"
+            value={newname}
+            onChange={(e) => setnewname(e.target.value)}
+            name="name"
             placeholder="Type New Name"
             type="text"
           />
