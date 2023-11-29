@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../mydrive.css";
 import Info from "./Info";
 
-const MyDrive = ({ setinfo, setChangename, setshowfile, files, setfiles }) => {
+const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
   const nav = useNavigate();
 
   const handleInfoClick = (fileId) => {
@@ -31,44 +31,69 @@ const MyDrive = ({ setinfo, setChangename, setshowfile, files, setfiles }) => {
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setshowfile(values);
-                nav("/showfile");
+                if (!values.is_dir) {
+                  nav(values.path.split("localhost:3000")[1]);
+                } else {
+                  nav("directories" + values.path.split("localhost:3000")[1]);
+                }
               }}
-              key={index}
+              key={values.url}
               className="file files"
             >
-              <div className="file--name">Name: {values.name}</div>
+              <div className="file--name">
+                {" "}
+                {values.path.split("/")[values.path.split("/").length - 1]}
+              </div>
               <div className="buttons--options">
-                <NavLink
+                <Link
                   className="delete buttons--options--items"
-                  to="delete"
                   activeClassName="active"
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    try {
+                      let data = fetch(
+                        `http://localhost:3000/files${
+                          values.path.split("localhost:3000")[1]
+                        }`,
+                        { method: "DELETE" }
+                      );
+                      if (Object.keys(await data).length === 0) {
+                        setFiles((prev) => {
+                          const copy = [...prev];
+                          return copy.filter(
+                            (file) => file.path !== values.path
+                          );
+                        });
+                      }
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }}
                 >
                   Delete
-                </NavLink>
-                <NavLink
+                </Link>
+                <Link
                   onClick={(e) => {
                     e.stopPropagation();
-                    setinfo(values.id);
+                    setInfo(values.id);
                   }}
                   className="info buttons--options--items"
-                  to="info"
                   activeClassName="active"
                 >
                   Info
-                </NavLink>
-                <NavLink
+                </Link>
+                <Link
                   onClick={(e) => {
                     e.stopPropagation();
 
-                    setChangename(values);
+                    setChangeName(values);
                   }}
                   className="rename buttons--options--items"
                   to="renamefile"
                   activeClassName="active"
                 >
                   Rename File
-                </NavLink>
+                </Link>
               </div>
             </div>
           ))}

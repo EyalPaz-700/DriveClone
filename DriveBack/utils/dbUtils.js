@@ -11,12 +11,13 @@ function checkIfDir(src) {
 async function getAllUsersFiles(username) {
   try {
     const data = await fs.promises.readdir(
-      path.resolve(__dirname, "../public/" + username)
+      path.resolve(__dirname, "../public/" + username),
+      { withFileTypes: true }
     );
-    return data.map((src) => {
+    return data.map((file) => {
       return {
-        path: `localhost:3000/public/${username}/${src}`,
-        is_dir: checkIfDir("/" + username + "/" + src),
+        path: `localhost:3000/${username}/${file.name}`,
+        is_dir: file.isDirectory(),
       };
     });
   } catch {
@@ -28,12 +29,13 @@ async function getAllUsersFiles(username) {
 async function getAllDirectoryFiles(pathToDir) {
   try {
     const data = await fs.promises.readdir(
-      path.resolve(__dirname, "../public/" + pathToDir)
+      path.resolve(__dirname, "../public/" + pathToDir),
+      { withFileTypes: true }
     );
-    return data.map((src) => {
+    return data.map((file) => {
       return {
-        path: `localhost:3000/public${pathToDir}/${src}`,
-        is_dir: checkIfDir("/" + pathToDir),
+        path: `localhost:3000${pathToDir}/${file.name}`,
+        is_dir: file.isDirectory(),
       };
     });
   } catch {
