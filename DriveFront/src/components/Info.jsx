@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "../info.css";
 const Info = ({ info, files }) => {
-  const filterd = files.filter((parm) => parm.id === info)[0];
-  console.log(filterd.path);
+  const filterd = files.filter((parm) => parm.name === info)[0];
+  console.log("filterd :", filterd.path);
+
   return (
     <>
       <h1 className="myfiles--text">Info</h1>

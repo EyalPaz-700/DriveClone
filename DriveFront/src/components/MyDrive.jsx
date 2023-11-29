@@ -49,10 +49,10 @@ const MyDrive = ({ setinfo, setChangename, setshowfile, files, setfiles }) => {
                 <NavLink
                   onClick={(e) => {
                     e.stopPropagation();
-                    setinfo(values.id);
+                    setinfo(values.name);
                   }}
                   className="info buttons--options--items"
-                  to="info"
+                  to={`${values.path.split("/")[4]}/info`}
                   activeClassName="active"
                 >
                   Info

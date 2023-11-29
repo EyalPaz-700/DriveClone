@@ -19,30 +19,37 @@ function App() {
   const [showfile, setshowfile] = useState();
   const [files, setFiles] = useState([
     {
-      path: "../../public/user1/two.txt",
-      name: "1",
+      path: "../../public/user1/1.txt",
+      name: "1.txt",
       id: 1,
       size: 100,
       lastmodified: "2015-07-07T15:00:00Z",
     },
     {
-      path: "../../public/user1/one.txt",
-      name: "2",
+      path: "../../public/user1/2.txt",
+      name: "2.txt",
       id: 2,
       size: 100,
       lastmodified: "2015-07-07T15:00:00Z",
     },
     {
-      path: "../../public/user1/two.txt",
-      name: "3",
+      path: "../../public/user1/3.txt",
+      name: "3.txt",
       id: 3,
       size: 100,
       lastmodified: "2015-07-07T15:00:00Z",
     },
     {
-      path: "../../public/user1/two.txt",
-      name: "4",
+      path: "../../public/user1/4.txt",
+      name: "4.txt",
       id: 4,
+      size: 100,
+      lastmodified: "2015-07-07T15:00:00Z",
+    },
+    {
+      path: "../../public/user1/5.txt",
+      name: "5.txt",
+      id: 5,
       size: 100,
       lastmodified: "2015-07-07T15:00:00Z",
     },
@@ -63,9 +70,10 @@ function App() {
           }
         ></Route>
         <Route
-          path="/info"
+          path={`:filename/info`}
           element={<Info info={info} files={files} />}
         ></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route
           path="/renamefile"
           element={<RenameFile changename={changename} />}
