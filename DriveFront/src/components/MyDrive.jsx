@@ -3,38 +3,8 @@ import { useNavigate, NavLink } from "react-router-dom";
 import "../mydrive.css";
 import Info from "./Info";
 
-const MyDrive = ({ setinfo, setChangename, setshowfile }) => {
+const MyDrive = ({ setinfo, setChangename, setshowfile, files, setfiles }) => {
   const nav = useNavigate();
-  const [files, setFiles] = useState([
-    {
-      path: "../../public/user1/two.txt",
-      name: "1",
-      id: 1,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/one.txt",
-      name: "2",
-      id: 2,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/two.txt",
-      name: "3",
-      id: 3,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/two.txt",
-      name: "4",
-      id: 4,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-  ]);
 
   const handleInfoClick = (fileId) => {
     // Perform any additional logic here if needed
@@ -59,7 +29,8 @@ const MyDrive = ({ setinfo, setChangename, setshowfile }) => {
         <div className="user--files">
           {files.map((values, index) => (
             <div
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setshowfile(values);
                 nav("/showfile");
               }}
@@ -76,7 +47,10 @@ const MyDrive = ({ setinfo, setChangename, setshowfile }) => {
                   Delete
                 </NavLink>
                 <NavLink
-                  onClick={() => setinfo(values.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setinfo(values.id);
+                  }}
                   className="info buttons--options--items"
                   to="info"
                   activeClassName="active"
@@ -84,7 +58,11 @@ const MyDrive = ({ setinfo, setChangename, setshowfile }) => {
                   Info
                 </NavLink>
                 <NavLink
-                  onClick={() => setChangename(values)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    setChangename(values);
+                  }}
                   className="rename buttons--options--items"
                   to="renamefile"
                   activeClassName="active"
