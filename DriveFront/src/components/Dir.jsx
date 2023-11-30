@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-export default function Dir({
-  files,
-  user,
-  setInfo,
-  setShowFile,
-  setChangeName,
-}) {
+export default function Dir({ user, setInfo }) {
   const params = useParams();
   const [dirFiles, setDirFiles] = useState([]);
+  const [inputToggle, setInputToggle] = useState(false);
+  const [rename, setRename] = useState("");
   const nav = useNavigate();
+  debugger;
   useEffect(() => {
-    debugger;
     fetch("http://localhost:3000/files/" + user + "/" + params["*"])
       .then((data) => data.json())
       .then(setDirFiles);
@@ -72,18 +68,74 @@ export default function Dir({
             >
               Info
             </Link>
-            <Link
+            <button
               onClick={(e) => {
                 e.stopPropagation();
-
-                setChangeName(values);
+                setInputToggle((prev) => !prev);
               }}
               className="rename buttons--options--items"
-              to="renamefile"
-              activeClassName="active"
             >
               Rename File
-            </Link>
+            </button>
+            {inputToggle && (
+              <>
+                <input
+                  type="text"
+                  onInput={(e) => {
+                    e.stopPropagation();
+                    setRename(e.target.value);
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                ></input>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    try {
+                      let data = await fetch(
+                        `http://localhost:3000/files/` +
+                          user +
+                          "/" +
+                          params["*"] +
+                          "/" +
+                          values.path.split("/")[
+                            values.path.split("/").length - 1
+                          ],
+                        {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            name: rename,
+                          }),
+                        }
+                      );
+                      data = await data.json();
+                      if (data) {
+                        const copy = [...dirFiles];
+                        const currentElement = copy.find(
+                          (file) => file.path === values.path
+                        );
+                        currentElement.path = currentElement.path.split("/");
+                        currentElement.path[currentElement.path.length - 1] =
+                          rename;
+                        currentElement.path = currentElement.path.join("/");
+                        setDirFiles(copy);
+                      } else {
+                        console.error("error");
+                      }
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }}
+                  className="rename buttons--options--items"
+                >
+                  Submit
+                </button>
+              </>
+            )}
           </div>
         </div>
       ))}
