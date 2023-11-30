@@ -60,9 +60,10 @@ export default function Dir({ user, setInfo }) {
             <Link
               onClick={(e) => {
                 e.stopPropagation();
-                setInfo(values.id);
+                setInfo(e.target.href);
               }}
               className="info buttons--options--items"
+              to={`info`}
               activeClassName="active"
             >
               Info
