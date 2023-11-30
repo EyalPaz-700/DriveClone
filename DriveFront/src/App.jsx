@@ -34,6 +34,7 @@ function App() {
               setChangeName={setChangeName}
               setFiles={setFiles}
               files={files}
+              user={user}
             />
           }
         ></Route>

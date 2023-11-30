@@ -3,8 +3,17 @@ import { useNavigate, Link } from "react-router-dom";
 import "../mydrive.css";
 import Info from "./Info";
 
-const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
+const MyDrive = ({ setInfo, user, files, setFiles }) => {
   const nav = useNavigate();
+  const [inputToggle, setInputToggle] = useState(false);
+  const [rename, setRename] = useState("");
+  const handleInfoClick = (fileId) => {
+    // Perform any additional logic here if needed
+    nav({
+      pathname: `/info/${fileId.id}`,
+    });
+  };
+
   return (
     <>
       <div className="containar--main">
@@ -74,18 +83,73 @@ const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
                 >
                   Info
                 </Link>
-                <Link
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
-
-                    setChangeName(values);
+                    setInputToggle((prev) => !prev);
                   }}
                   className="rename buttons--options--items"
-                  to="renamefile"
-                  activeClassName="active"
                 >
                   Rename File
-                </Link>
+                </button>
+                {inputToggle && (
+                  <>
+                    <input
+                      type="text"
+                      onInput={(e) => {
+                        e.stopPropagation();
+                        setRename(e.target.value);
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    ></input>
+                    <button
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        try {
+                          debugger;
+                          let data = await fetch(
+                            `http://localhost:3000/files/` +
+                              user +
+                              "/" +
+                              values.path.split("/").slice(-1),
+                            {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                name: rename,
+                              }),
+                            }
+                          );
+                          data = await data.json();
+                          if (data) {
+                            const copy = [...files];
+                            const currentElement = copy.find(
+                              (file) => file.path === values.path
+                            );
+                            currentElement.path =
+                              currentElement.path.split("/");
+                            currentElement.path[
+                              currentElement.path.length - 1
+                            ] = rename;
+                            currentElement.path = currentElement.path.join("/");
+                            setFiles(copy);
+                          } else {
+                            console.error("error");
+                          }
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }}
+                      className="rename buttons--options--items"
+                    >
+                      Submit
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
