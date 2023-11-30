@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "../info.css";
 const Info = ({ info, files }) => {
-  const filterd = files.filter((parm) => parm.name === info)[0];
-  console.log("filterd :", filterd.path);
+  console.log("info :", info);
+  console.log(files);
+  const filterd = files.filter((parm) => parm.name === info.name)[0];
+  console.log("filterd :", filterd);
 
   return (
     <>

@@ -5,14 +5,6 @@ import Info from "./Info";
 
 const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
   const nav = useNavigate();
-
-  const handleInfoClick = (fileId) => {
-    // Perform any additional logic here if needed
-    nav({
-      pathname: `/info/${fileId.id}`,
-    });
-  };
-
   return (
     <>
       <div className="containar--main">
@@ -37,7 +29,7 @@ const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
                   nav("directories" + values.path.split("localhost:3000")[1]);
                 }
               }}
-              key={values.url}
+              key={values.index}
               className="file files"
             >
               <div className="file--name">
@@ -75,10 +67,10 @@ const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
                 <Link
                   onClick={(e) => {
                     e.stopPropagation();
-                    setinfo(values.name);
+                    setInfo(values.path.split("/")[2]);
                   }}
                   className="info buttons--options--items"
-                  to={`${values.path.split("/")[4]}/info`}
+                  to={`${values.path.split("/")[2]}/info`}
                   activeClassName="active"
                 >
                   Info
