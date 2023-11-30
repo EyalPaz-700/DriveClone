@@ -1,59 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  BrowserRouter as Router,
-  NavLink,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Login } from "./components/Login";
 import MyDrive from "./components/MyDrive";
 import Info from "./components/Info";
 import RenameFile from "./components/RenameFile";
 import Showfile from "./components/Showfile";
 import AddFile from "./components/AddFile";
+import FileComp from "./components/FileComp";
+import Dir from "./components/Dir";
 function App() {
-  const [info, setinfo] = useState();
-  const [changename, setChangename] = useState();
-  const [showfile, setshowfile] = useState();
-  const [files, setFiles] = useState([
-    {
-      path: "../../public/user1/1.txt",
-      name: "1.txt",
-      id: 1,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/2.txt",
-      name: "2.txt",
-      id: 2,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/3.txt",
-      name: "3.txt",
-      id: 3,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/4.txt",
-      name: "4.txt",
-      id: 4,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-    {
-      path: "../../public/user1/5.txt",
-      name: "5.txt",
-      id: 5,
-      size: 100,
-      lastmodified: "2015-07-07T15:00:00Z",
-    },
-  ]);
+  const [info, setInfo] = useState();
+  const [changeName, setChangeName] = useState();
+  const [showFile, setShowFile] = useState();
+  const [files, setFiles] = useState([]);
+  const [user, setUser] = useState("eyal");
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/files/${user}`)
+      .then((data) => data.json())
+      .then((data) => setFiles(data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <Router>
       <Routes>
@@ -61,9 +29,9 @@ function App() {
           path="/"
           element={
             <MyDrive
-              setinfo={setinfo}
-              setshowfile={setshowfile}
-              setChangename={setChangename}
+              setInfo={setInfo}
+              setShowFile={setShowFile}
+              setChangeName={setChangeName}
               setFiles={setFiles}
               files={files}
             />
@@ -75,12 +43,28 @@ function App() {
         ></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route
+          path={`${user}/*`}
+          element={<FileComp user={user} files={files} />}
+        ></Route>
+        <Route
+          path={`directories/${user}/*`}
+          element={
+            <Dir
+              setInfo={setInfo}
+              setShowFile={setShowFile}
+              setChangeName={setChangeName}
+              user={user}
+              files={files}
+            />
+          }
+        ></Route>
+        <Route
           path="/renamefile"
-          element={<RenameFile changename={changename} />}
+          element={<RenameFile changename={changeName} />}
         ></Route>
         <Route
           path="/showfile"
-          element={<Showfile showfile={showfile} />}
+          element={<Showfile showfile={showFile} />}
         ></Route>
         <Route path="/addnewfile" element={<AddFile />}></Route>
       </Routes>
