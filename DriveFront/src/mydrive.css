@@ -1,10 +1,10 @@
 .containar--main {
   padding: 10px;
   display: flex;
-  justify-content: center;
   align-items: center; /* Add this line to center vertically */
   flex-direction: column;
   width: 95vw;
+  height: 95vh;
 }
 body {
   margin: 0;
@@ -12,15 +12,20 @@ body {
 }
 .myfiles--text {
   text-align: center;
+  margin-top: 2px;
 }
 .text-con {
   display: flex;
 }
 
 .user--files {
-  border: 1px solid black;
+  align-self: center;
+  border: 3px solid black;
+  border-radius: 3px;
   padding: 10px;
   margin: 20px;
+  margin-top: 10vh;
+  text-align: center;
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
