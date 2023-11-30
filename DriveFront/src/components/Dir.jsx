@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-export default function Dir({ user, setInfo }) {
+export default function Dir({ user, setInfo, setFiles }) {
   const params = useParams();
   const [dirFiles, setDirFiles] = useState([]);
   const [inputToggle, setInputToggle] = useState(false);
@@ -10,7 +10,10 @@ export default function Dir({ user, setInfo }) {
   useEffect(() => {
     fetch("http://localhost:3000/files/" + user + "/" + params["*"])
       .then((data) => data.json())
-      .then(setDirFiles);
+      .then((data) => {
+        setFiles(data);
+        setDirFiles(data);
+      });
   }, [params["*"]]);
   return (
     <div>
@@ -57,13 +60,16 @@ export default function Dir({ user, setInfo }) {
             >
               Delete
             </Link>
+
             <Link
               onClick={(e) => {
                 e.stopPropagation();
                 setInfo(e.target.href);
               }}
               className="info buttons--options--items"
-              to={`info`}
+              to={`/info/${
+                user + "/" + params["*"] + "/" + values.path.split("/").at(-1)
+              }`}
               activeClassName="active"
             >
               Info

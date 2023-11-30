@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "../info.css";
 const Info = ({ info, files }) => {
-  const name = info.split("/")[3];
+  console.log("files :", files);
+  console.log("info :", info);
+  const name = info.split("/").at(-1);
   const path = info;
   // const filterd = files.filter((parm) => parm.path === info)[0];
-  const filterd = files.filter((parm) => parm.path.split("/")[2] === name)[0];
+  const filterd = files.filter(
+    (parm) => parm.path.split("/").at(-1) === name
+  )[0];
   return (
     <>
       <h1 className="myfiles--text">Info</h1>

@@ -78,7 +78,7 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
                     setInfo(e.target.href);
                   }}
                   className="info buttons--options--items"
-                  to={`${values.path.split("/")[2]}/info`}
+                  to={`/info/${user}/${values.path.split("/").at(-1)}`}
                   activeClassName="active"
                 >
                   Info

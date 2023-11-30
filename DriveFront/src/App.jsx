@@ -48,7 +48,7 @@ function App() {
           }
         ></Route>
         <Route
-          path={`:filename/info`}
+          path={`info/*`}
           element={<Info info={info} files={files} />}
         ></Route>
         <Route path="/login" element={<Login />}></Route>
@@ -56,11 +56,13 @@ function App() {
           path={`${user.name}/*`}
           element={<FileComp user={user.name} files={files} />}
         ></Route>
+
         <Route
           path={`directories/${user.name}/*`}
           element={
             <Dir
               setInfo={setInfo}
+              setFiles={setFiles}
               setShowFile={setShowFile}
               setChangeName={setChangeName}
               user={user.name}
