@@ -7,7 +7,6 @@ export default function Dir({ user, setInfo }) {
   const [inputToggle, setInputToggle] = useState(false);
   const [rename, setRename] = useState("");
   const nav = useNavigate();
-  debugger;
   useEffect(() => {
     fetch("http://localhost:3000/files/" + user + "/" + params["*"])
       .then((data) => data.json())
