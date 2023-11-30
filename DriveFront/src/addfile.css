@@ -1,0 +1,26 @@
+.addfile {
+  padding: 10px;
+  display: flex;
+  align-items: center; /* Add this line to center vertically */
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+}
+.items-addfile {
+  margin: 5px;
+  width: 80vw;
+  padding: 10px;
+}
+textarea {
+  font-size: 1.2rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+input[type="submit"] {
+  background: none;
+  color: inherit;
+  border: none;
+  border: 1px solid black;
+  height: 5vh;
+  padding: 0;
+  cursor: pointer;
+}

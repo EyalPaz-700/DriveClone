@@ -27,13 +27,7 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
         <div className="text-con">
           <h1 className="myfiles--text">My files</h1>
         </div>
-        <button
-          onClick={() => {
-            nav("/addnewfile");
-          }}
-        >
-          Add File
-        </button>
+
         <div className="user--files">
           {files.map((values) => (
             <div
