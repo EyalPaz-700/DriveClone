@@ -1,6 +1,5 @@
 const fs = require("node:fs");
 const path = require("path");
-const Joi = require("joi");
 
 function checkIfDir(src) {
   return fs
@@ -15,9 +14,12 @@ async function getAllUsersFiles(username) {
       { withFileTypes: true }
     );
     return data.map((file) => {
+      const stats = fs.statSync(file.path);
       return {
         path: `localhost:3000/${username}/${file.name}`,
         is_dir: file.isDirectory(),
+        size: stats.size,
+        last_modified: stats.mtime,
       };
     });
   } catch {
@@ -33,9 +35,12 @@ async function getAllDirectoryFiles(pathToDir) {
       { withFileTypes: true }
     );
     return data.map((file) => {
+      const stats = fs.statSync(file.path);
       return {
         path: `localhost:3000${pathToDir}/${file.name}`,
         is_dir: file.isDirectory(),
+        size: stats.size,
+        last_modified: stats.mtime,
       };
     });
   } catch {

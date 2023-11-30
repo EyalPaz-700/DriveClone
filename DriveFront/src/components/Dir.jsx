@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../dir.css";
 export default function Dir({ user, setInfo }) {
   const params = useParams();
   const [dirFiles, setDirFiles] = useState([]);
@@ -13,7 +14,7 @@ export default function Dir({ user, setInfo }) {
       .then(setDirFiles);
   }, [params["*"]]);
   return (
-    <div>
+    <div className="dir">
       {dirFiles.map((values, index) => (
         <div
           onClick={(e) => {
