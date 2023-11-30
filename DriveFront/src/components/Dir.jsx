@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../dir.css";
 export default function Dir({ user, setInfo, setFiles }) {
   const params = useParams();
   const [dirFiles, setDirFiles] = useState([]);
@@ -16,8 +17,8 @@ export default function Dir({ user, setInfo, setFiles }) {
       });
   }, [params["*"]]);
   return (
-    <div>
-      {dirFiles.map((values, index) => (
+    <div className="dir">
+      {dirFiles.map((values) => (
         <div
           onClick={(e) => {
             e.stopPropagation();
@@ -27,7 +28,7 @@ export default function Dir({ user, setInfo, setFiles }) {
               nav(values.path.split("/")[values.path.split("/").length - 1]);
             }
           }}
-          key={values.url}
+          key={values.path}
           className="file files"
         >
           <div className="file--name">
