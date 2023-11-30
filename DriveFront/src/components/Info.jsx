@@ -9,6 +9,7 @@ const Info = ({ info, files }) => {
   const filterd = files.filter(
     (parm) => parm.path.split("/").at(-1) === name
   )[0];
+  console.log("filterd :", filterd);
   return (
     <>
       <h1 className="myfiles--text">Info</h1>

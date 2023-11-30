@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../mydrive.css";
 import Info from "./Info";
@@ -14,6 +14,13 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
     });
   };
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/files/${user}`)
+      .then((data) => data.json())
+      .then((data) => setFiles(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <div className="containar--main">
@@ -28,7 +35,7 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
           Add File
         </button>
         <div className="user--files">
-          {files.map((values, index) => (
+          {files.map((values) => (
             <div
               onClick={(e) => {
                 e.stopPropagation();
@@ -38,7 +45,7 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
                   nav("directories" + values.path.split("localhost:3000")[1]);
                 }
               }}
-              key={values.index}
+              key={values.path}
               className="file files"
             >
               <div className="file--name">
