@@ -6,8 +6,8 @@ const RenameFile = ({ changename }) => {
   const submit = (e) => {
     e.preventDefault();
     console.log(changename.path);
-
-    fetch("http://localhost:3000/files/eyal")
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    fetch(`http://localhost:3000/files/${user}`)
       .then((res) => {
         return res.json();
       })
@@ -16,8 +16,9 @@ const RenameFile = ({ changename }) => {
       })
       .then((data) => {
         const path = data[0].path;
+        console.log("path :", path);
         const filename = path.split("/")[3];
-        fetch(`http://localhost:3000/files/eyal/${filename}`, {
+        fetch(`http://localhost:3000/files/${user}/${filename}`, {
           method: "PUT",
           body: JSON.stringify({ name: newname }),
           headers: {

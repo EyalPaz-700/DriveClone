@@ -5,7 +5,6 @@ export default function FileComp({ files, user }) {
   const params = useParams();
   const [content, setContent] = useState("");
   useEffect(() => {
-    debugger;
     if (params["*"].endsWith("txt")) {
       fetch("http://localhost:3000/" + user + "/" + params["*"])
         .then((data) => data.text())

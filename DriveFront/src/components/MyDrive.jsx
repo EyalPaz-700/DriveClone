@@ -33,7 +33,6 @@ const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
               className="file files"
             >
               <div className="file--name">
-                {" "}
                 {values.path.split("/")[values.path.split("/").length - 1]}
               </div>
               <div className="buttons--options">
@@ -67,7 +66,7 @@ const MyDrive = ({ setInfo, setChangeName, files, setFiles }) => {
                 <Link
                   onClick={(e) => {
                     e.stopPropagation();
-                    setInfo(values.path.split("/")[2]);
+                    setInfo(e.target.href);
                   }}
                   className="info buttons--options--items"
                   to={`${values.path.split("/")[2]}/info`}
