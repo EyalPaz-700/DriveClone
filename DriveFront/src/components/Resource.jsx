@@ -15,6 +15,11 @@ export default function Resource({
   const [inputToggle, setInputToggle] = useState(false);
   const [rename, setRename] = useState("");
   const nav = useNavigate();
+  const toInfo = inDir
+    ? `/info/${user + "/" + params["*"] + "/" + values.path.split("/").at(-1)}`
+    : `/info/${user}/${values.path.split("/").at(-1)}`;
+  console.log("toInfo :", toInfo);
+
   return (
     <div
       onClick={(e) => {
@@ -22,23 +27,18 @@ export default function Resource({
         if (!values.is_dir) {
           nav(values.path.split("localhost:3000")[1]);
         } else {
-          const path = inDir
-            ? values.path.split("/")[values.path.split("/").length - 1]
-            : "directories" + values.path.split("localhost:3000")[1];
-          nav(path);
+          nav("/directories" + values.path.split("localhost:3000")[1]);
         }
       }}
-      key={values.url}
+      key={values.path}
       className="file files"
     >
       <div className="file--name">
-        {" "}
         {values.path.split("/")[values.path.split("/").length - 1]}
       </div>
       <div className="buttons--options">
         <Link
           className="delete buttons--options--items"
-          activeClassName="active"
           onClick={async (e) => {
             e.stopPropagation();
             try {
@@ -61,13 +61,14 @@ export default function Resource({
         >
           Delete
         </Link>
+
         <Link
           onClick={(e) => {
             e.stopPropagation();
-            setInfo(values.id);
+            setInfo(e.target.href);
           }}
           className="info buttons--options--items"
-          activeClassName="active"
+          to={toInfo}
         >
           Info
         </Link>
@@ -96,27 +97,21 @@ export default function Resource({
               onClick={async (e) => {
                 e.stopPropagation();
                 try {
-                  const url = inDir
-                    ? `http://localhost:3000/files/` +
+                  let data = await fetch(
+                    `http://localhost:3000/files/` +
                       user +
                       "/" +
-                      params["*"] +
-                      "/" +
-                      values.path.split("/")[values.path.split("/").length - 1]
-                    : `http://localhost:3000/files/` +
-                      user +
-                      "/" +
-                      values.path.split("/").slice(-1);
-
-                  let data = await fetch(url, {
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      name: rename,
-                    }),
-                  });
+                      values.path.split("/").slice(-1),
+                    {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        name: rename,
+                      }),
+                    }
+                  );
                   data = await data.json();
                   if (data) {
                     const copy = [...dirFiles];

@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import "../info.css";
 const Info = ({ info, files }) => {
-  const filterd = files.filter((parm) => parm.id === info)[0];
-  console.log(filterd.path);
+  const name = info.split("/").at(-1);
+  const path = info;
+  // const filterd = files.filter((parm) => parm.path === info)[0];
+  const filterd = files.filter(
+    (parm) => parm.path.split("/").at(-1) === name
+  )[0];
+  console.log("filterd :", filterd);
   return (
     <>
       <h1 className="myfiles--text">Info</h1>
       <div className="info--items">
-        <div className="info--item">Name: {filterd.name}</div>
-        <div className="info--item">Path: {filterd.path}</div>
+        <div className="info--item">Name: {name}</div>
+        <div className="info--item">Path: {path}</div>
         <div className="info--item">Size: {filterd.size}</div>
-        <div className="info--item">LastModified: {filterd.lastmodified}</div>
+        <div className="info--item">LastModified: {filterd.last_modified}</div>
+        <div className="info--item">is dir: {"" + filterd.is_dir}</div>
       </div>
     </>
   );

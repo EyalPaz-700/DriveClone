@@ -14,10 +14,19 @@ function App() {
   const [changeName, setChangeName] = useState();
   const [showFile, setShowFile] = useState();
   const [files, setFiles] = useState([]);
-  const [user, setUser] = useState("eyal");
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("currentUser"))
+  );
+  if (JSON.parse(localStorage.getItem("currentUser")) === null) {
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify({ name: "eyal", password: "eyal55" })
+    );
+  }
 
   useEffect(() => {
-    fetch(`http://localhost:3000/files/${user}`)
+    setUser(JSON.parse(localStorage.getItem("currentUser")));
+    fetch(`http://localhost:3000/files/${user.name}`)
       .then((data) => data.json())
       .then((data) => setFiles(data))
       .catch((err) => console.log(err));
@@ -34,26 +43,29 @@ function App() {
               setChangeName={setChangeName}
               setFiles={setFiles}
               files={files}
-              user={user}
+              user={user.name}
             />
           }
         ></Route>
         <Route
-          path="/info"
+          path={`info/*`}
           element={<Info info={info} files={files} />}
         ></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route
-          path={`${user}/*`}
-          element={<FileComp user={user} files={files} />}
+          path={`${user.name}/*`}
+          element={<FileComp user={user.name} files={files} />}
         ></Route>
+
         <Route
-          path={`directories/${user}/*`}
+          path={`directories/${user.name}/*`}
           element={
             <Dir
               setInfo={setInfo}
+              setFiles={setFiles}
               setShowFile={setShowFile}
               setChangeName={setChangeName}
-              user={user}
+              user={user.name}
               files={files}
             />
           }

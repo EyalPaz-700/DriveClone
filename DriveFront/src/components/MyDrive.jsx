@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../mydrive.css";
 import Resource from "./Resource";
@@ -14,19 +14,20 @@ const MyDrive = ({ setInfo, user, files, setFiles }) => {
     });
   };
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/files/${user}`)
+      .then((data) => data.json())
+      .then((data) => setFiles(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <div className="containar--main">
         <div className="text-con">
           <h1 className="myfiles--text">My files</h1>
         </div>
-        <button
-          onClick={() => {
-            nav("/addnewfile");
-          }}
-        >
-          Add File
-        </button>
+
         <div className="user--files">
           {files.map((values, index) => (
             <Resource

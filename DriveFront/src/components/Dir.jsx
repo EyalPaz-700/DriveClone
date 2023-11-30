@@ -3,13 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../dir.css";
 import Resource from "./Resource";
-export default function Dir({ user, setInfo }) {
+export default function Dir({ user, setInfo, setFiles }) {
   const params = useParams();
   const [dirFiles, setDirFiles] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3000/files/" + user + "/" + params["*"])
       .then((data) => data.json())
-      .then(setDirFiles);
+      .then((data) => {
+        setFiles(data);
+        setDirFiles(data);
+      });
   }, [params["*"]]);
   return (
     <div className="dir">
@@ -19,6 +22,7 @@ export default function Dir({ user, setInfo }) {
           values={values}
           setDirFiles={setDirFiles}
           dirFiles={dirFiles}
+          setInfo={setInfo}
           params={params}
           user={user}
         />
