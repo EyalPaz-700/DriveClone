@@ -22,6 +22,7 @@ export default function Dir({ user, setInfo, setFiles }) {
           values={values}
           setDirFiles={setDirFiles}
           dirFiles={dirFiles}
+          setInfo={setInfo}
           params={params}
           user={user}
         />
